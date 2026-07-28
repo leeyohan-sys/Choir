@@ -6,6 +6,11 @@ const submitBtn = document.getElementById("submitBtn");
 let mappingData = null;
 const YOUTUBE_ID_REGEX =
   /(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/i;
+const TITLE_ALIAS_TO_DETAIL = {
+  // "기쁨의찬양"처럼 현장 표현으로 입력하는 경우를 위한 별칭
+  기쁨의찬양: "https://www.vitnara.co.kr/part/thegrace9/thegrace9/17.html",
+  기쁨찬양: "https://www.vitnara.co.kr/part/thegrace9/thegrace9/17.html",
+};
 
 function setMessage(text, isError = false) {
   messageEl.textContent = text;
@@ -14,6 +19,10 @@ function setMessage(text, isError = false) {
 
 function normalizeTitle(inputValue) {
   return inputValue.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function toSearchableText(inputValue) {
+  return inputValue.replace(/[^0-9a-zA-Z가-힣]/g, "").toLowerCase();
 }
 
 function normalizeYoutubeId(inputValue) {
@@ -82,9 +91,26 @@ form.addEventListener("submit", async (event) => {
       found = items.find((item) => item.youtubeId === youtubeId) || null;
     } else {
       const normalizedKeyword = normalizeTitle(keyword);
+      const searchableKeyword = toSearchableText(normalizedKeyword);
+      const aliasDetailUrl = TITLE_ALIAS_TO_DETAIL[searchableKeyword] || null;
+
+      if (aliasDetailUrl) {
+        found = { detailUrl: aliasDetailUrl };
+      }
+
+      if (!found) {
+        found =
+          items.find((item) => {
+            const normalizedTitle = item.normalizedTitle || "";
+            const searchableTitle = item.searchableTitle || toSearchableText(normalizedTitle);
+            return (
+              normalizedTitle.includes(normalizedKeyword) ||
+              searchableTitle.includes(searchableKeyword)
+            );
+          }) || null;
+      }
+
       // 곡 제목 검색은 부분 일치로 허용해서 사용성을 높임
-      found =
-        items.find((item) => (item.normalizedTitle || "").includes(normalizedKeyword)) || null;
     }
 
     if (!found) {
