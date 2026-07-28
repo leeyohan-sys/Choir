@@ -1,0 +1,78 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+.app {
+  min-height: 100dvh;
+  padding: 24px 16px;
+  max-width: 640px;
+  margin: 0 auto;
+}
+
+h1 {
+  margin: 0 0 8px;
+  font-size: 1.5rem;
+}
+
+.desc {
+  margin: 0 0 16px;
+  color: #cbd5e1;
+  line-height: 1.5;
+}
+
+.card {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+label {
+  font-size: 0.95rem;
+  color: #cbd5e1;
+}
+
+input {
+  width: 100%;
+  border: 1px solid #475569;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 1rem;
+  background: #0f172a;
+  color: #e2e8f0;
+}
+
+button {
+  border: 0;
+  border-radius: 10px;
+  padding: 12px;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #0f172a;
+  background: #22d3ee;
+}
+
+button:disabled {
+  opacity: 0.65;
+}
+
+.message {
+  margin-top: 14px;
+  min-height: 1.25rem;
+  color: #7dd3fc;
+  line-height: 1.4;
+}
+
+.message.error {
+  color: #fca5a5;
+}
