@@ -76,3 +76,36 @@ button:disabled {
 .message.error {
   color: #fca5a5;
 }
+
+.result-box {
+  margin-top: 12px;
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.result-title {
+  margin: 0 0 8px;
+  color: #cbd5e1;
+  font-size: 0.95rem;
+}
+
+.result-link {
+  display: block;
+  color: #67e8f9;
+  word-break: break-all;
+  text-decoration: none;
+  margin-bottom: 10px;
+}
+
+.copy-btn {
+  width: 100%;
+  border: 0;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #0f172a;
+  background: #a5f3fc;
+}

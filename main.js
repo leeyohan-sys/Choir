@@ -2,6 +2,9 @@ const form = document.getElementById("matchForm");
 const input = document.getElementById("youtubeUrl");
 const messageEl = document.getElementById("message");
 const submitBtn = document.getElementById("submitBtn");
+const resultBox = document.getElementById("resultBox");
+const resultLink = document.getElementById("resultLink");
+const copyBtn = document.getElementById("copyBtn");
 
 let mappingData = null;
 const YOUTUBE_ID_REGEX =
@@ -15,6 +18,19 @@ const TITLE_ALIAS_TO_DETAIL = {
 function setMessage(text, isError = false) {
   messageEl.textContent = text;
   messageEl.classList.toggle("error", isError);
+}
+
+function setResultLink(url) {
+  if (!url) {
+    resultLink.textContent = "";
+    resultLink.href = "#";
+    resultBox.hidden = true;
+    return;
+  }
+
+  resultLink.textContent = url;
+  resultLink.href = url;
+  resultBox.hidden = false;
 }
 
 function normalizeTitle(inputValue) {
@@ -102,6 +118,7 @@ async function getMappingData() {
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  setResultLink(null);
 
   const keyword = input.value.trim();
   if (!keyword) {
@@ -139,11 +156,22 @@ form.addEventListener("submit", async (event) => {
       return;
     }
 
-    setMessage("일치 항목을 찾았습니다. 상세페이지로 이동합니다.");
-    window.location.href = found.detailUrl;
+    setResultLink(found.detailUrl);
+    setMessage("일치 항목을 찾았습니다. 아래 링크를 열거나 복사해 사용하세요.");
   } catch (_error) {
     setMessage("데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.", true);
   } finally {
     submitBtn.disabled = false;
+  }
+});
+
+copyBtn.addEventListener("click", async () => {
+  if (!resultLink.href || resultLink.href === "#") return;
+
+  try {
+    await navigator.clipboard.writeText(resultLink.href);
+    setMessage("상세페이지 링크를 복사했습니다.");
+  } catch (_error) {
+    setMessage("링크 복사에 실패했습니다. 링크를 길게 눌러 복사해 주세요.", true);
   }
 });
