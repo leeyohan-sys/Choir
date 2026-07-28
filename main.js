@@ -25,6 +25,37 @@ function toSearchableText(inputValue) {
   return inputValue.replace(/[^0-9a-zA-Z가-힣]/g, "").toLowerCase();
 }
 
+function findBestTitleMatch(items, normalizedKeyword, searchableKeyword) {
+  const priorities = [
+    {
+      // 1순위: 완전일치
+      match: (title, searchableTitle) =>
+        title === normalizedKeyword || searchableTitle === searchableKeyword,
+    },
+    {
+      // 2순위: 시작일치
+      match: (title, searchableTitle) =>
+        title.startsWith(normalizedKeyword) || searchableTitle.startsWith(searchableKeyword),
+    },
+    {
+      // 3순위: 포함일치
+      match: (title, searchableTitle) =>
+        title.includes(normalizedKeyword) || searchableTitle.includes(searchableKeyword),
+    },
+  ];
+
+  for (const priority of priorities) {
+    const matched = items.find((item) => {
+      const title = item.normalizedTitle || "";
+      const searchableTitle = item.searchableTitle || toSearchableText(title);
+      return priority.match(title, searchableTitle);
+    });
+    if (matched) return matched;
+  }
+
+  return null;
+}
+
 function normalizeYoutubeId(inputValue) {
   if (!inputValue || typeof inputValue !== "string") return null;
 
@@ -99,18 +130,8 @@ form.addEventListener("submit", async (event) => {
       }
 
       if (!found) {
-        found =
-          items.find((item) => {
-            const normalizedTitle = item.normalizedTitle || "";
-            const searchableTitle = item.searchableTitle || toSearchableText(normalizedTitle);
-            return (
-              normalizedTitle.includes(normalizedKeyword) ||
-              searchableTitle.includes(searchableKeyword)
-            );
-          }) || null;
+        found = findBestTitleMatch(items, normalizedKeyword, searchableKeyword);
       }
-
-      // 곡 제목 검색은 부분 일치로 허용해서 사용성을 높임
     }
 
     if (!found) {
