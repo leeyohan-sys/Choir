@@ -1,0 +1,22 @@
+{
+  "name": "choir",
+  "version": "1.0.0",
+  "description": "유튜브 링크 기반 파트연습 상세페이지 매칭 웹서비스",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "build:index": "node scripts/build-index.js",
+    "deploy": "npm run build:index && gh-pages -d public"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "cheerio": "^1.2.0",
+    "express": "^5.2.1"
+  },
+  "devDependencies": {
+    "gh-pages": "^6.3.0"
+  }
+}
