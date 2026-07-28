@@ -156,8 +156,10 @@ form.addEventListener("submit", async (event) => {
       return;
     }
 
+    // 사용자 액션(버튼 클릭) 흐름에서 새 탭으로 바로 열기
+    window.open(found.detailUrl, "_blank", "noopener,noreferrer");
     setResultLink(found.detailUrl);
-    setMessage("일치 항목을 찾았습니다. 아래 링크를 열거나 복사해 사용하세요.");
+    setMessage("일치 항목을 찾았습니다. 새 창으로 열었고, 아래 링크도 복사할 수 있습니다.");
   } catch (_error) {
     setMessage("데이터를 불러오지 못했습니다. 잠시 후 다시 시도해 주세요.", true);
   } finally {
