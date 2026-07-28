@@ -12,6 +12,10 @@ function setMessage(text, isError = false) {
   messageEl.classList.toggle("error", isError);
 }
 
+function normalizeTitle(inputValue) {
+  return inputValue.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
 function normalizeYoutubeId(inputValue) {
   if (!inputValue || typeof inputValue !== "string") return null;
 
@@ -59,9 +63,9 @@ async function getMappingData() {
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const youtubeUrl = input.value.trim();
-  if (!youtubeUrl) {
-    setMessage("유튜브 주소를 입력해 주세요.", true);
+  const keyword = input.value.trim();
+  if (!keyword) {
+    setMessage("유튜브 주소 또는 곡 제목을 입력해 주세요.", true);
     return;
   }
 
@@ -69,14 +73,20 @@ form.addEventListener("submit", async (event) => {
   setMessage("일치하는 파트연습을 찾는 중입니다...");
 
   try {
-    const youtubeId = normalizeYoutubeId(youtubeUrl);
-    if (!youtubeId) {
-      setMessage("유효한 유튜브 주소(또는 영상 ID)를 입력해 주세요.", true);
-      return;
+    const data = await getMappingData();
+    const items = data.items || [];
+    const youtubeId = normalizeYoutubeId(keyword);
+    let found = null;
+
+    if (youtubeId) {
+      found = items.find((item) => item.youtubeId === youtubeId) || null;
+    } else {
+      const normalizedKeyword = normalizeTitle(keyword);
+      // 곡 제목 검색은 부분 일치로 허용해서 사용성을 높임
+      found =
+        items.find((item) => (item.normalizedTitle || "").includes(normalizedKeyword)) || null;
     }
 
-    const data = await getMappingData();
-    const found = (data.items || []).find((item) => item.youtubeId === youtubeId);
     if (!found) {
       setMessage("일치하는 파트연습 상세페이지를 찾지 못했습니다.", true);
       return;
