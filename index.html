@@ -3,11 +3,8 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#0f172a" />
     <title>성가대 파트 연습실</title>
     <link rel="stylesheet" href="./styles.css" />
-    <link rel="manifest" href="./manifest.json" />
-    <link rel="apple-touch-icon" href="./icon-192.svg" />
   </head>
   <body>
     <main class="app">
@@ -15,15 +12,6 @@
       <p class="desc">
         유튜브 주소 또는 곡 제목을 넣으면 빛나라 파트연습실 상세페이지로 이동합니다.
       </p>
-
-      <div class="install-area">
-        <button id="installBtn" type="button" class="install-btn" hidden>
-          앱 설치
-        </button>
-        <p id="installHint" class="install-hint" hidden>
-          아래 버튼을 눌러 앱으로 설치할 수 있습니다.
-        </p>
-      </div>
 
       <form id="matchForm" class="card">
         <label for="youtubeUrl">유튜브 주소 또는 곡 제목</label>
@@ -44,21 +32,6 @@
         <a id="resultLink" class="result-link" href="#" target="_blank" rel="noopener noreferrer"></a>
         <button id="copyBtn" type="button" class="copy-btn">링크 복사</button>
       </section>
-
-      <div id="installSheet" class="sheet" hidden role="dialog" aria-modal="true">
-        <div class="sheet-inner">
-          <p class="sheet-title">홈 화면에 추가하기</p>
-          <p class="sheet-body">
-            iPhone/iPad에서는 자동 설치가 제한될 수 있어요. 아래 순서대로 추가해 주세요.
-          </p>
-          <ol class="sheet-steps">
-            <li>브라우저 하단(또는 상단) 공유 버튼을 누릅니다.</li>
-            <li>“홈 화면에 추가”를 선택합니다.</li>
-            <li>확인하면 바탕화면에 앱 아이콘이 생깁니다.</li>
-          </ol>
-          <button id="closeSheetBtn" type="button" class="sheet-close">닫기</button>
-        </div>
-      </div>
     </main>
 
     <script src="./main.js"></script>
