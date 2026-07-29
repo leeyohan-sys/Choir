@@ -5,6 +5,82 @@ const submitBtn = document.getElementById("submitBtn");
 const resultBox = document.getElementById("resultBox");
 const resultLink = document.getElementById("resultLink");
 const copyBtn = document.getElementById("copyBtn");
+const installBtn = document.getElementById("installBtn");
+const installSheet = document.getElementById("installSheet");
+const closeSheetBtn = document.getElementById("closeSheetBtn");
+
+let deferredPrompt = null;
+
+function isProbablyIOS() {
+  const ua = navigator.userAgent || "";
+  return /iPad|iPhone|iPod/.test(ua);
+}
+
+function showInstallSheet() {
+  if (!installSheet) return;
+  installSheet.hidden = false;
+}
+
+function hideInstallSheet() {
+  if (!installSheet) return;
+  installSheet.hidden = true;
+}
+
+async function registerServiceWorker() {
+  if (!("serviceWorker" in navigator)) return;
+  try {
+    await navigator.serviceWorker.register("./service-worker.js");
+  } catch (_e) {
+    // 서비스워커는 실패해도 설치 버튼 동작은 브라우저 정책에 따르므로 무시
+  }
+}
+
+function setupInstallUI() {
+  if (!installBtn) return;
+
+  // iOS는 "앱 설치" 자동 생성이 제한되므로, 버튼을 눌렀을 때 안내문을 띄웁니다.
+  if (isProbablyIOS()) {
+    installBtn.hidden = false;
+    installBtn.addEventListener("click", () => {
+      showInstallSheet();
+    });
+    return;
+  }
+
+  // Chrome/Android 등에서 제공하는 설치 프롬프트
+  window.addEventListener("beforeinstallprompt", (event) => {
+    event.preventDefault();
+    deferredPrompt = event;
+    installBtn.hidden = false;
+  });
+
+  window.addEventListener("appinstalled", () => {
+    installBtn.hidden = true;
+    deferredPrompt = null;
+  });
+
+  installBtn.addEventListener("click", async () => {
+    if (!deferredPrompt) {
+      showInstallSheet();
+      return;
+    }
+    deferredPrompt.prompt();
+    try {
+      await deferredPrompt.userChoice;
+    } catch (_e) {
+      // 사용자가 취소했거나 정책에 의해 실패해도 무시
+    }
+    deferredPrompt = null;
+    hideInstallSheet();
+    installBtn.hidden = true;
+  });
+}
+
+if (closeSheetBtn) {
+  closeSheetBtn.addEventListener("click", () => hideInstallSheet());
+}
+
+registerServiceWorker().then(setupInstallUI).catch(setupInstallUI);
 
 let mappingData = null;
 const YOUTUBE_ID_REGEX =
