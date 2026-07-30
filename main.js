@@ -93,33 +93,51 @@ function findBestTitleMatch(items, normalizedKeyword, searchableKeyword) {
   return null;
 }
 
+function looksLikeYoutubeInput(inputValue) {
+  const value = (inputValue || "").trim().toLowerCase();
+  if (!value) return false;
+  return (
+    value.includes("youtube.com") ||
+    value.includes("youtu.be") ||
+    /^https?:\/\//i.test(value) ||
+    /^[a-zA-Z0-9_-]{11}$/.test(value)
+  );
+}
+
 function normalizeYoutubeId(inputValue) {
   if (!inputValue || typeof inputValue !== "string") return null;
 
   const trimmed = inputValue.trim();
   if (!trimmed) return null;
 
+  // 이미 ID(11자리)만 입력한 경우도 허용
   if (/^[a-zA-Z0-9_-]{11}$/.test(trimmed)) {
     return trimmed;
   }
 
   try {
     const url = new URL(trimmed);
+    const host = url.hostname.replace(/^www\./, "").toLowerCase();
 
-    if (url.hostname.includes("youtu.be")) {
-      return url.pathname.replace("/", "").slice(0, 11) || null;
+    if (host === "youtu.be") {
+      const id = url.pathname.split("/").filter(Boolean)[0] || "";
+      return /^[a-zA-Z0-9_-]{11}$/.test(id) ? id : null;
     }
 
-    if (url.hostname.includes("youtube.com")) {
+    if (host.endsWith("youtube.com")) {
       const v = url.searchParams.get("v");
       if (v && /^[a-zA-Z0-9_-]{11}$/.test(v)) {
         return v;
       }
-      const embedMatch = url.pathname.match(/\/embed\/([a-zA-Z0-9_-]{11})/i);
-      if (embedMatch) return embedMatch[1];
+
+      // /embed/, /shorts/, /live/, /v/ 형태도 지원
+      const pathMatch = url.pathname.match(
+        /\/(?:embed|shorts|live|v)\/([a-zA-Z0-9_-]{11})/i,
+      );
+      if (pathMatch) return pathMatch[1];
     }
   } catch (_error) {
-    // URL 파싱에 실패해도 정규식 추출을 한 번 더 시도
+    // URL 파싱에 실패해도 정규식 기반 추출로 폴백
   }
 
   const match = trimmed.match(YOUTUBE_ID_REGEX);
@@ -149,16 +167,16 @@ function closeSongList() {
 }
 
 function filterSongs(keyword) {
+  // 유튜브 주소/ID 입력은 곡 목록 필터 대상이 아님
+  if (looksLikeYoutubeInput(keyword)) {
+    return null;
+  }
+
   const normalizedKeyword = normalizeTitle(keyword);
   const searchableKeyword = toSearchableText(normalizedKeyword);
 
   if (!searchableKeyword) {
     return songItems;
-  }
-
-  // 유튜브 주소/ID 입력 중에는 전체 목록을 보여주지 않음
-  if (normalizeYoutubeId(keyword)) {
-    return [];
   }
 
   return songItems.filter((item) => {
@@ -201,6 +219,13 @@ function renderSongList(items) {
 
 function refreshSongList({ open = true } = {}) {
   const filtered = filterSongs(input.value);
+
+  // 유튜브 주소 입력 중에는 콤보 목록을 닫고 기존처럼 주소 검색만 사용
+  if (filtered === null) {
+    closeSongList();
+    return;
+  }
+
   renderSongList(filtered);
   if (open) {
     openSongList();
@@ -253,6 +278,7 @@ input.addEventListener("keydown", (event) => {
     if (active) {
       event.preventDefault();
       const filtered = filterSongs(input.value);
+      if (!filtered) return;
       const item = filtered[activeIndex];
       if (item) selectSong(item);
     }
@@ -298,7 +324,12 @@ form.addEventListener("submit", async (event) => {
     const youtubeId = normalizeYoutubeId(keyword);
     let found = null;
 
-    if (youtubeId) {
+    // 유튜브 주소/ID면 기존처럼 영상 ID로만 매칭
+    if (looksLikeYoutubeInput(keyword) || youtubeId) {
+      if (!youtubeId) {
+        setMessage("유효한 유튜브 주소를 입력해 주세요.", true);
+        return;
+      }
       found = items.find((item) => item.youtubeId === youtubeId) || null;
     } else {
       const normalizedKeyword = normalizeTitle(keyword);
