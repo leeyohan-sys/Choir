@@ -167,8 +167,8 @@ function closeSongList() {
 }
 
 function filterSongs(keyword) {
-  // 유튜브 주소/ID 입력은 곡 목록 필터 대상이 아님
-  if (looksLikeYoutubeInput(keyword)) {
+  // 유튜브 주소가 인식되면 곡 목록 필터 대신 주소 검색으로 처리
+  if (normalizeYoutubeId(keyword) || looksLikeYoutubeInput(keyword)) {
     return null;
   }
 
@@ -324,14 +324,13 @@ form.addEventListener("submit", async (event) => {
     const youtubeId = normalizeYoutubeId(keyword);
     let found = null;
 
-    // 유튜브 주소/ID면 기존처럼 영상 ID로만 매칭
-    if (looksLikeYoutubeInput(keyword) || youtubeId) {
-      if (!youtubeId) {
-        setMessage("유효한 유튜브 주소를 입력해 주세요.", true);
-        return;
-      }
+    // 1) 유튜브 주소/ID로 검색
+    if (youtubeId) {
       found = items.find((item) => item.youtubeId === youtubeId) || null;
-    } else {
+    }
+
+    // 2) 없으면 곡 제목으로 검색
+    if (!found) {
       const normalizedKeyword = normalizeTitle(keyword);
       const searchableKeyword = toSearchableText(normalizedKeyword);
       const aliasDetailUrl = TITLE_ALIAS_TO_DETAIL[searchableKeyword] || null;
