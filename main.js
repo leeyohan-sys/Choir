@@ -5,6 +5,8 @@ const submitBtn = document.getElementById("submitBtn");
 const resultBox = document.getElementById("resultBox");
 const resultLink = document.getElementById("resultLink");
 const copyBtn = document.getElementById("copyBtn");
+const songListEl = document.getElementById("songList");
+const comboToggle = document.getElementById("comboToggle");
 
 // 이전에 설치(PWA) 기능을 등록했다면 흔적을 정리
 if ("serviceWorker" in navigator) {
@@ -15,6 +17,9 @@ if ("serviceWorker" in navigator) {
 }
 
 let mappingData = null;
+let songItems = [];
+let activeIndex = -1;
+
 const YOUTUBE_ID_REGEX =
   /(?:youtube\.com\/watch\?v=|youtube\.com\/embed\/|youtu\.be\/)([a-zA-Z0-9_-]{11})/i;
 const TITLE_ALIAS_TO_DETAIL = {
@@ -47,6 +52,14 @@ function normalizeTitle(inputValue) {
 
 function toSearchableText(inputValue) {
   return inputValue.replace(/[^0-9a-zA-Z가-힣]/g, "").toLowerCase();
+}
+
+function getSongNumber(item) {
+  const fromUrl = (item.detailUrl || "").match(/\/(\d{2})\.html$/i);
+  if (fromUrl) return Number(fromUrl[1]);
+
+  const fromTitle = (item.title || "").match(/^(\d{1,2})\b/);
+  return fromTitle ? Number(fromTitle[1]) : Number.MAX_SAFE_INTEGER;
 }
 
 function findBestTitleMatch(items, normalizedKeyword, searchableKeyword) {
@@ -124,13 +137,155 @@ async function getMappingData() {
   return mappingData;
 }
 
+function openSongList() {
+  songListEl.hidden = false;
+  input.setAttribute("aria-expanded", "true");
+}
+
+function closeSongList() {
+  songListEl.hidden = true;
+  input.setAttribute("aria-expanded", "false");
+  activeIndex = -1;
+}
+
+function filterSongs(keyword) {
+  const normalizedKeyword = normalizeTitle(keyword);
+  const searchableKeyword = toSearchableText(normalizedKeyword);
+
+  if (!searchableKeyword) {
+    return songItems;
+  }
+
+  // 유튜브 주소/ID 입력 중에는 전체 목록을 보여주지 않음
+  if (normalizeYoutubeId(keyword)) {
+    return [];
+  }
+
+  return songItems.filter((item) => {
+    const title = item.normalizedTitle || "";
+    const searchableTitle = item.searchableTitle || toSearchableText(item.title || "");
+    return title.includes(normalizedKeyword) || searchableTitle.includes(searchableKeyword);
+  });
+}
+
+function renderSongList(items) {
+  songListEl.innerHTML = "";
+
+  if (!items.length) {
+    const empty = document.createElement("li");
+    empty.className = "combo-empty";
+    empty.textContent = "일치하는 곡이 없습니다.";
+    songListEl.appendChild(empty);
+    return;
+  }
+
+  items.forEach((item, index) => {
+    const li = document.createElement("li");
+    li.className = "combo-item";
+    li.setAttribute("role", "option");
+    li.dataset.index = String(index);
+    li.textContent = item.title;
+    if (index === activeIndex) {
+      li.classList.add("active");
+    }
+
+    li.addEventListener("mousedown", (event) => {
+      // blur 전에 선택되도록 mousedown 사용
+      event.preventDefault();
+      selectSong(item);
+    });
+
+    songListEl.appendChild(li);
+  });
+}
+
+function refreshSongList({ open = true } = {}) {
+  const filtered = filterSongs(input.value);
+  renderSongList(filtered);
+  if (open) {
+    openSongList();
+  }
+}
+
+function selectSong(item) {
+  input.value = item.title;
+  closeSongList();
+  input.focus();
+}
+
+function moveActive(delta) {
+  const items = [...songListEl.querySelectorAll(".combo-item")];
+  if (!items.length) return;
+
+  activeIndex = (activeIndex + delta + items.length) % items.length;
+  items.forEach((el, idx) => {
+    el.classList.toggle("active", idx === activeIndex);
+  });
+  items[activeIndex].scrollIntoView({ block: "nearest" });
+}
+
+async function initCombo() {
+  const data = await getMappingData();
+  songItems = [...(data.items || [])].sort((a, b) => getSongNumber(a) - getSongNumber(b));
+  renderSongList(songItems);
+}
+
+input.addEventListener("focus", () => {
+  refreshSongList({ open: true });
+});
+
+input.addEventListener("input", () => {
+  activeIndex = -1;
+  refreshSongList({ open: true });
+});
+
+input.addEventListener("keydown", (event) => {
+  if (event.key === "ArrowDown") {
+    event.preventDefault();
+    if (songListEl.hidden) refreshSongList({ open: true });
+    moveActive(1);
+  } else if (event.key === "ArrowUp") {
+    event.preventDefault();
+    if (songListEl.hidden) refreshSongList({ open: true });
+    moveActive(-1);
+  } else if (event.key === "Enter" && !songListEl.hidden && activeIndex >= 0) {
+    const active = songListEl.querySelector(".combo-item.active");
+    if (active) {
+      event.preventDefault();
+      const filtered = filterSongs(input.value);
+      const item = filtered[activeIndex];
+      if (item) selectSong(item);
+    }
+  } else if (event.key === "Escape") {
+    closeSongList();
+  }
+});
+
+comboToggle.addEventListener("click", () => {
+  if (songListEl.hidden) {
+    activeIndex = -1;
+    refreshSongList({ open: true });
+    input.focus();
+  } else {
+    closeSongList();
+  }
+});
+
+document.addEventListener("click", (event) => {
+  const combo = document.getElementById("combo");
+  if (!combo.contains(event.target)) {
+    closeSongList();
+  }
+});
+
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  closeSongList();
   setResultLink(null);
 
   const keyword = input.value.trim();
   if (!keyword) {
-    setMessage("유튜브 주소 또는 곡 제목을 입력해 주세요.", true);
+    setMessage("곡 제목 또는 유튜브 주소를 입력해 주세요.", true);
     return;
   }
 
@@ -184,4 +339,8 @@ copyBtn.addEventListener("click", async () => {
   } catch (_error) {
     setMessage("링크 복사에 실패했습니다. 링크를 길게 눌러 복사해 주세요.", true);
   }
+});
+
+initCombo().catch(() => {
+  setMessage("곡 목록을 불러오지 못했습니다.", true);
 });

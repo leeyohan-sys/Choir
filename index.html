@@ -10,18 +10,33 @@
     <main class="app">
       <h1>파트연습 찾기</h1>
       <p class="desc">
-        유튜브 주소 또는 곡 제목을 넣으면 빛나라 파트연습실 상세페이지로 이동합니다.
+        곡 제목 또는 유튜브 주소를 넣으면 빛나라 파트연습실 상세페이지로 이동합니다.
       </p>
 
       <form id="matchForm" class="card">
-        <label for="youtubeUrl">유튜브 주소 또는 곡 제목</label>
-        <input
-          id="youtubeUrl"
-          name="youtubeUrl"
-          type="text"
-          placeholder="유튜브 주소 또는 곡 제목 입력"
-          required
-        />
+        <label for="youtubeUrl">곡 제목 또는 유튜브 주소</label>
+
+        <div class="combo" id="combo">
+          <div class="combo-input-row">
+            <input
+              id="youtubeUrl"
+              name="youtubeUrl"
+              type="text"
+              placeholder="곡 제목 또는 유튜브 주소 입력"
+              autocomplete="off"
+              role="combobox"
+              aria-expanded="false"
+              aria-controls="songList"
+              aria-autocomplete="list"
+              required
+            />
+            <button id="comboToggle" type="button" class="combo-toggle" aria-label="곡 목록 열기">
+              ▾
+            </button>
+          </div>
+          <ul id="songList" class="combo-list" role="listbox" hidden></ul>
+        </div>
+
         <button id="submitBtn" type="submit">파트연습 열기</button>
       </form>
 
