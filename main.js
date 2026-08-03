@@ -166,6 +166,15 @@ function closeSongList() {
   activeIndex = -1;
 }
 
+// 콤보로 목록만 볼 때는 키보드 방지, 직접 입력할 때만 키보드 허용
+function setTypingEnabled(enabled) {
+  if (enabled) {
+    input.removeAttribute("readonly");
+  } else {
+    input.setAttribute("readonly", "readonly");
+  }
+}
+
 function filterSongs(keyword) {
   // 유튜브 주소가 인식되면 곡 목록 필터 대신 주소 검색으로 처리
   if (normalizeYoutubeId(keyword) || looksLikeYoutubeInput(keyword)) {
@@ -207,9 +216,10 @@ function renderSongList(items) {
       li.classList.add("active");
     }
 
-    li.addEventListener("mousedown", (event) => {
-      // blur 전에 선택되도록 mousedown 사용
+    li.addEventListener("pointerdown", (event) => {
+      // 모바일에서 입력창 포커스/키보드가 뜨기 전에 선택 처리
       event.preventDefault();
+      setTypingEnabled(false);
       selectSong(item);
     });
 
@@ -235,7 +245,7 @@ function refreshSongList({ open = true } = {}) {
 function selectSong(item) {
   input.value = item.title;
   closeSongList();
-  // 목록에서 고른 뒤에는 키보드를 띄우지 않음
+  setTypingEnabled(false);
   input.blur();
 }
 
@@ -256,7 +266,17 @@ async function initCombo() {
   renderSongList(songItems);
 }
 
+// 입력칸을 직접 눌렀을 때만 키보드 입력 허용
+input.addEventListener("pointerdown", () => {
+  setTypingEnabled(true);
+});
+
 input.addEventListener("focus", () => {
+  // readonly 상태(콤보 목록용)면 포커스를 즉시 해제해 키보드 차단
+  if (input.hasAttribute("readonly")) {
+    input.blur();
+    return;
+  }
   refreshSongList({ open: true });
 });
 
@@ -288,8 +308,13 @@ input.addEventListener("keydown", (event) => {
   }
 });
 
+comboToggle.addEventListener("pointerdown", (event) => {
+  // 버튼 터치 시 입력창으로 포커스가 넘어가 키보드가 뜨는 것 방지
+  event.preventDefault();
+});
+
 comboToggle.addEventListener("click", () => {
-  // 콤보 버튼은 목록만 열고, 입력 포커스(키보드)는 건드리지 않음
+  setTypingEnabled(false);
   input.blur();
   if (songListEl.hidden) {
     activeIndex = -1;
