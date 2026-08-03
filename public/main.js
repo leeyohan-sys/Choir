@@ -8,7 +8,7 @@ const copyBtn = document.getElementById("copyBtn");
 const songListEl = document.getElementById("songList");
 const comboToggle = document.getElementById("comboToggle");
 
-// 이전에 설치(PWA) 기능을 등록했다면 흔적을 정리
+// 이전에 등록된 PWA/서비스 워커가 있으면 정리
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
     .getRegistrations()
@@ -235,7 +235,8 @@ function refreshSongList({ open = true } = {}) {
 function selectSong(item) {
   input.value = item.title;
   closeSongList();
-  input.focus();
+  // 목록에서 고른 뒤에는 키보드를 띄우지 않음
+  input.blur();
 }
 
 function moveActive(delta) {
@@ -288,10 +289,11 @@ input.addEventListener("keydown", (event) => {
 });
 
 comboToggle.addEventListener("click", () => {
+  // 콤보 버튼은 목록만 열고, 입력 포커스(키보드)는 건드리지 않음
+  input.blur();
   if (songListEl.hidden) {
     activeIndex = -1;
     refreshSongList({ open: true });
-    input.focus();
   } else {
     closeSongList();
   }
