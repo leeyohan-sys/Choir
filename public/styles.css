@@ -52,6 +52,10 @@ input {
   color: #e2e8f0;
 }
 
+input[readonly] {
+  caret-color: transparent;
+}
+
 .combo {
   position: relative;
 }
