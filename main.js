@@ -158,12 +158,18 @@ async function getMappingData() {
 function openSongList() {
   songListEl.hidden = false;
   input.setAttribute("aria-expanded", "true");
+  // 화면 아래 남은 공간에 맞춰 목록 높이를 잡아 스크롤 가능하게 함
+  const comboRect = document.getElementById("combo").getBoundingClientRect();
+  const available = window.innerHeight - comboRect.bottom - 12;
+  const maxHeight = Math.max(160, Math.min(available, Math.floor(window.innerHeight * 0.55)));
+  songListEl.style.maxHeight = `${maxHeight}px`;
 }
 
 function closeSongList() {
   songListEl.hidden = true;
   input.setAttribute("aria-expanded", "false");
   activeIndex = -1;
+  songListEl.style.maxHeight = "";
 }
 
 // 콤보로 목록만 볼 때는 키보드 방지, 직접 입력할 때만 키보드 허용
@@ -216,9 +222,8 @@ function renderSongList(items) {
       li.classList.add("active");
     }
 
-    li.addEventListener("pointerdown", (event) => {
-      // 모바일에서 입력창 포커스/키보드가 뜨기 전에 선택 처리
-      event.preventDefault();
+    // pointerdown+preventDefault는 모바일 스크롤을 막으므로 click으로 선택
+    li.addEventListener("click", () => {
       setTypingEnabled(false);
       selectSong(item);
     });

@@ -89,8 +89,11 @@ input[readonly] {
   z-index: 20;
   margin: 0;
   padding: 6px;
-  max-height: 260px;
+  max-height: min(50dvh, 320px);
   overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  touch-action: pan-y;
   list-style: none;
   background: #0f172a;
   border: 1px solid #475569;
@@ -103,6 +106,8 @@ input[readonly] {
   color: #e2e8f0;
   cursor: pointer;
   line-height: 1.35;
+  /* 항목 터치가 목록 세로 스크롤을 가로채지 않도록 */
+  touch-action: pan-y;
 }
 
 .combo-item:hover,
