@@ -3,29 +3,50 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <title>Choir Part Match</title>
+    <title>성가대 파트 연습실</title>
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <main class="app">
       <h1>파트연습 찾기</h1>
       <p class="desc">
-        유튜브 주소를 넣으면 빛나라 파트연습실 상세페이지로 이동합니다.
+        곡 제목 또는 유튜브 주소를 넣으면 빛나라 파트연습실 상세페이지로 이동합니다.
       </p>
 
       <form id="matchForm" class="card">
-        <label for="youtubeUrl">유튜브 주소</label>
-        <input
-          id="youtubeUrl"
-          name="youtubeUrl"
-          type="url"
-          placeholder="https://www.youtube.com/watch?v=..."
-          required
-        />
-        <button id="submitBtn" type="submit">상세페이지 열기</button>
+        <label for="youtubeUrl">곡 제목 또는 유튜브 주소</label>
+
+        <div class="combo" id="combo">
+          <div class="combo-input-row">
+            <input
+              id="youtubeUrl"
+              name="youtubeUrl"
+              type="text"
+              placeholder="곡 제목 또는 유튜브 주소 입력"
+              autocomplete="off"
+              role="combobox"
+              aria-expanded="false"
+              aria-controls="songList"
+              aria-autocomplete="list"
+              required
+            />
+            <button id="comboToggle" type="button" class="combo-toggle" aria-label="곡 목록 열기">
+              ▾
+            </button>
+          </div>
+          <ul id="songList" class="combo-list" role="listbox" hidden></ul>
+        </div>
+
+        <button id="submitBtn" type="submit">파트연습 열기</button>
       </form>
 
       <p id="message" class="message" aria-live="polite"></p>
+
+      <section id="resultBox" class="result-box" hidden>
+        <p class="result-title">상세페이지 링크</p>
+        <a id="resultLink" class="result-link" href="#" target="_blank" rel="noopener noreferrer"></a>
+        <button id="copyBtn" type="button" class="copy-btn">링크 복사</button>
+      </section>
     </main>
 
     <script src="./main.js"></script>
