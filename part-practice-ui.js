@@ -7,6 +7,27 @@
     { key: "bass", label: "베이스" },
   ];
 
+  function isMobileDevice() {
+    return /Android|iPhone|iPad|iPod/i.test(navigator.userAgent || "");
+  }
+
+  function buildYoutubeAppUrl(youtubeId) {
+    const ua = navigator.userAgent || "";
+    if (/Android/i.test(ua)) {
+      return `intent://www.youtube.com/watch?v=${youtubeId}#Intent;package=com.google.android.youtube;scheme=https;end`;
+    }
+    if (/iPhone|iPad|iPod/i.test(ua)) {
+      return `youtube://www.youtube.com/watch?v=${youtubeId}`;
+    }
+    return `https://www.youtube.com/watch?v=${youtubeId}`;
+  }
+
+  function openYoutubeOnDevice(youtubeId, event) {
+    if (!youtubeId || !isMobileDevice()) return;
+    event.preventDefault();
+    window.location.href = buildYoutubeAppUrl(youtubeId);
+  }
+
   function getDefaultPartKey(item) {
     const preferred = PART_TABS.find(({ key }) => item.parts?.[key]?.youtubeId);
     return preferred ? preferred.key : "full";
@@ -25,19 +46,6 @@
     title.className = "part-practice-song";
     title.textContent = item.title;
     panel.appendChild(title);
-
-    if (item.composer) {
-      const meta = document.createElement("p");
-      meta.className = "part-practice-meta";
-      const category = item.category ? ` · ${item.category}` : "";
-      meta.textContent = `${item.composer}${category}`;
-      panel.appendChild(meta);
-    } else if (item.category) {
-      const meta = document.createElement("p");
-      meta.className = "part-practice-meta";
-      meta.textContent = item.category;
-      panel.appendChild(meta);
-    }
 
     const tabs = document.createElement("div");
     tabs.className = "part-tabs";
@@ -69,6 +77,10 @@
     openLink.target = "_blank";
     openLink.rel = "noopener noreferrer";
     openLink.textContent = "유튜브에서 열기";
+    openLink.addEventListener("click", (event) => {
+      const youtubeId = openLink.dataset.youtubeId;
+      openYoutubeOnDevice(youtubeId, event);
+    });
 
     function selectPart(key) {
       const part = item.parts?.[key];
@@ -85,11 +97,13 @@
         frameWrap.hidden = false;
         empty.hidden = true;
         openLink.href = `https://www.youtube.com/watch?v=${youtubeId}`;
+        openLink.dataset.youtubeId = youtubeId;
         openLink.hidden = false;
       } else {
         iframe.src = "";
         frameWrap.hidden = true;
         empty.hidden = false;
+        delete openLink.dataset.youtubeId;
         openLink.hidden = true;
       }
     }
