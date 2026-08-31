@@ -251,25 +251,6 @@ input[readonly] {
   line-height: 1.35;
   /* 항목 터치가 목록 세로 스크롤을 가로채지 않도록 */
   touch-action: pan-y;
-  display: flex;
-  align-items: baseline;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.combo-item-title {
-  font-size: 0.98rem;
-  flex: 1;
-  min-width: 0;
-}
-
-.combo-item-meta {
-  font-size: 0.82rem;
-  color: #94a3b8;
-  line-height: 1.3;
-  flex-shrink: 0;
-  text-align: right;
-  white-space: nowrap;
 }
 
 .combo-item:hover,

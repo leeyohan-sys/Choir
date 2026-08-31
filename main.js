@@ -531,10 +531,6 @@ function createNumberTitleCatalog({
     });
   }
 
-  function formatCatalogItemMeta(item) {
-    return [item.composer, item.category].filter(Boolean).join(" · ");
-  }
-
   function selectCatalogSong(item) {
     catalogInput.value = item.title;
     closeCatalogList();
@@ -591,18 +587,7 @@ function createNumberTitleCatalog({
         li.classList.add("active");
       }
 
-      const titleEl = document.createElement("span");
-      titleEl.className = "combo-item-title";
-      titleEl.textContent = item.title;
-      li.appendChild(titleEl);
-
-      const meta = formatCatalogItemMeta(item);
-      if (meta) {
-        const metaEl = document.createElement("span");
-        metaEl.className = "combo-item-meta";
-        metaEl.textContent = meta;
-        li.appendChild(metaEl);
-      }
+      li.textContent = item.title;
 
       li.addEventListener("click", () => {
         setCatalogTypingEnabled(false);
