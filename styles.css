@@ -27,6 +27,149 @@ h1 {
   line-height: 1.5;
 }
 
+.catalog-section {
+  margin-top: 28px;
+  padding-top: 24px;
+  border-top: 1px solid #334155;
+}
+
+.catalog-section-first {
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 0;
+}
+
+.catalog-title {
+  margin: 0 0 8px;
+  font-size: 1.25rem;
+}
+
+.catalog-desc {
+  margin: 0 0 16px;
+  color: #cbd5e1;
+  line-height: 1.5;
+  font-size: 0.95rem;
+}
+
+.practice-nav {
+  margin: 0 0 12px;
+}
+
+.practice-nav a {
+  color: #67e8f9;
+  text-decoration: none;
+}
+
+.practice-eyebrow {
+  margin: 0 0 4px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.practice-parts {
+  margin: 16px 0;
+}
+
+.part-practice-panel {
+  margin-top: 12px;
+}
+
+.part-practice-song {
+  margin: 0 0 6px;
+  font-size: 1.05rem;
+}
+
+.part-practice-meta {
+  margin: 0 0 12px;
+  color: #94a3b8;
+  font-size: 0.9rem;
+}
+
+.part-tabs {
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  gap: 0;
+  margin-bottom: 12px;
+}
+
+.part-tab {
+  border: 1px solid #8b6b4d;
+  background: transparent;
+  color: #e2e8f0;
+  padding: 10px 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  border-radius: 0;
+}
+
+.part-tab:first-child {
+  border-radius: 8px 0 0 8px;
+}
+
+.part-tab:last-child {
+  border-radius: 0 8px 8px 0;
+}
+
+.part-tab + .part-tab {
+  border-left: 0;
+}
+
+.part-tab.active {
+  background: #8b6b4d;
+  color: #fff7e6;
+  border-color: #8b6b4d;
+}
+
+.part-practice-player {
+  margin-bottom: 8px;
+}
+
+.practice-part {
+  background: #1e293b;
+  border: 1px solid #334155;
+  border-radius: 12px;
+  padding: 14px;
+}
+
+.practice-part h2 {
+  margin: 0 0 10px;
+  font-size: 1.05rem;
+}
+
+.practice-frame {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #020617;
+}
+
+.practice-frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.practice-empty {
+  margin: 0;
+  color: #94a3b8;
+  line-height: 1.45;
+}
+
+.practice-open {
+  display: inline-block;
+  margin-top: 10px;
+  color: #67e8f9;
+  text-decoration: none;
+}
+
+.practice-links {
+  gap: 8px;
+}
+
 .card {
   background: #1e293b;
   border: 1px solid #334155;
@@ -108,6 +251,25 @@ input[readonly] {
   line-height: 1.35;
   /* 항목 터치가 목록 세로 스크롤을 가로채지 않도록 */
   touch-action: pan-y;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.combo-item-title {
+  font-size: 0.98rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.combo-item-meta {
+  font-size: 0.82rem;
+  color: #94a3b8;
+  line-height: 1.3;
+  flex-shrink: 0;
+  text-align: right;
+  white-space: nowrap;
 }
 
 .combo-item:hover,
