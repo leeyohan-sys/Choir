@@ -1,6 +1,7 @@
 const fs = require("fs/promises");
 const path = require("path");
 const cheerio = require("cheerio");
+const iconv = require("iconv-lite");
 
 const BASE_LIST_URL = "https://www.vitnara.co.kr/part/thegrace9/thegrace9.html";
 const BASE_DETAIL_ROOT = "https://www.vitnara.co.kr/part/thegrace9/thegrace9/";
@@ -13,25 +14,50 @@ async function fetchText(url) {
   if (!response.ok) {
     throw new Error(`요청 실패: ${url} (${response.status})`);
   }
-  return response.text();
+
+  const buffer = Buffer.from(await response.arrayBuffer());
+  const head = buffer.toString("ascii");
+  const charsetMatch = head.match(/charset\s*=\s*["']?([\w-]+)/i);
+  const charset = (charsetMatch?.[1] || "utf-8").toLowerCase();
+
+  if (charset === "euc-kr" || charset === "euc_kr") {
+    return iconv.decode(buffer, "euc-kr");
+  }
+
+  return buffer.toString("utf8");
+}
+
+function normalizeTitle(inputValue) {
+  return inputValue.trim().replace(/\s+/g, " ").toLowerCase();
+}
+
+function toSearchableText(inputValue) {
+  return inputValue.replace(/[^0-9a-zA-Z가-힣]/g, "").toLowerCase();
+}
+
+function normalizeDetailUrl(url) {
+  return url.replace("https://www.vitnara.co.kr//", "https://www.vitnara.co.kr/");
 }
 
 async function collectDetailLinks() {
   const html = await fetchText(BASE_LIST_URL);
   const $ = cheerio.load(html);
-  const links = new Set();
+  const links = new Map();
 
   $("a[href]").each((_idx, el) => {
     const href = ($(el).attr("href") || "").trim();
     if (!DETAIL_LINK_REGEX.test(href)) return;
 
-    const absolute = new URL(href, BASE_DETAIL_ROOT).toString();
-    if (absolute.includes("/part/thegrace9/thegrace9/")) {
-      links.add(absolute);
+    const absolute = normalizeDetailUrl(new URL(href, BASE_DETAIL_ROOT).toString());
+    if (!absolute.includes("/part/thegrace9/thegrace9/")) return;
+
+    const title = $(el).text().replace(/\s+/g, " ").trim();
+    if (title) {
+      links.set(absolute, title);
     }
   });
 
-  return [...links];
+  return [...links.entries()].map(([detailUrl, title]) => ({ detailUrl, title }));
 }
 
 async function extractYoutubeId(detailUrl) {
@@ -52,14 +78,20 @@ async function extractYoutubeId(detailUrl) {
 }
 
 async function main() {
-  const detailUrls = await collectDetailLinks();
+  const detailLinks = await collectDetailLinks();
   const items = [];
 
-  for (const detailUrl of detailUrls) {
+  for (const { detailUrl, title } of detailLinks) {
     try {
       const youtubeId = await extractYoutubeId(detailUrl);
       if (youtubeId) {
-        items.push({ youtubeId, detailUrl });
+        items.push({
+          youtubeId,
+          detailUrl,
+          title,
+          normalizedTitle: normalizeTitle(title),
+          searchableTitle: toSearchableText(title),
+        });
       }
     } catch (_error) {
       // 일부 페이지 실패는 전체 인덱스 생성 실패로 보지 않고 건너뜀
