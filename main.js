@@ -99,6 +99,7 @@ function createNumberTitleCatalog({
   submitId,
   messageId,
   practiceBoxId,
+  playlistBoxId,
   mappingUrl,
   emptyListText,
 }) {
@@ -276,6 +277,9 @@ function createNumberTitleCatalog({
       return aNum - bNum;
     });
     renderCatalogList(catalogItems);
+    if (playlistBoxId) {
+      window.PartPracticeUI.renderPlaylist(document.getElementById(playlistBoxId), catalogItems);
+    }
   }
 
   catalogInput.addEventListener("pointerdown", () => {
@@ -380,4 +384,18 @@ createNumberTitleCatalog({
   practiceBoxId: "easyGrace13PracticeBox",
   mappingUrl: "./mapping-easygrace13.json",
   emptyListText: "등록된 곡이 없습니다. 곡 목록은 곧 추가됩니다.",
+});
+
+createNumberTitleCatalog({
+  formId: "cantataRejoiceForm",
+  inputId: "cantataRejoiceInput",
+  toggleId: "cantataRejoiceToggle",
+  listId: "cantataRejoiceSongList",
+  comboId: "cantataRejoiceCombo",
+  submitId: "cantataRejoiceSubmit",
+  messageId: "cantataRejoiceMessage",
+  practiceBoxId: "cantataRejoicePracticeBox",
+  playlistBoxId: "cantataRejoicePlaylistBox",
+  mappingUrl: "./mapping-cantata-rejoice.json",
+  emptyListText: "등록된 곡이 없습니다.",
 });

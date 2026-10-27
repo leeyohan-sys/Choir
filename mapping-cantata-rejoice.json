@@ -1,0 +1,303 @@
+{
+  "title": "Rejoice, 온 세상 기뻐하라! (칸타타 연습곡)",
+  "source": "https://m.joongangart.kr/RejoiceWholeWorld/01/%EC%98%A8%EC%84%B8%EC%83%81%EA%B8%B0%EB%BB%90%ED%95%98%EB%9D%BC.html",
+  "updatedAt": "2026-10-27T04:53:32.053Z",
+  "count": 5,
+  "items": [
+    {
+      "number": 1,
+      "title": "01 세상의 빛",
+      "songTitle": "세상의 빛",
+      "composer": "",
+      "category": "크리스마스 칸타타",
+      "normalizedTitle": "01 세상의 빛",
+      "searchableTitle": "01세상의빛",
+      "youtubeId": "gCnPvQdDTP0",
+      "detailUrl": "https://m.joongangart.kr/RejoiceWholeWorld/01/pop1.html",
+      "sourceUrl": "https://m.joongangart.kr/RejoiceWholeWorld/01/%EC%98%A8%EC%84%B8%EC%83%81%EA%B8%B0%EB%BB%90%ED%95%98%EB%9D%BC.html",
+      "parts": {
+        "full": {
+          "youtubeId": "gCnPvQdDTP0",
+          "videoTitle": "세상의 빛 / 합창",
+          "startSeconds": 60
+        },
+        "soprano": {
+          "youtubeId": "Jl5nFFN9NiY",
+          "videoTitle": "세상의 빛 / 소프라노",
+          "startSeconds": 60
+        },
+        "alto": {
+          "youtubeId": "duSSOLCguiE",
+          "videoTitle": "세상의 빛 / 알토",
+          "startSeconds": 60
+        },
+        "tenor": {
+          "youtubeId": "wbc8a3sCJ6Y",
+          "videoTitle": "세상의 빛 / 테너",
+          "startSeconds": 60
+        },
+        "bass": {
+          "youtubeId": "Od570gSQWB4",
+          "videoTitle": "세상의 빛 / 베이스",
+          "startSeconds": 60
+        },
+        "sopranoMidi": {
+          "youtubeId": "GHfoFt8egvY",
+          "videoTitle": "세상의 빛 / 소프라노 MIDI",
+          "startSeconds": 0
+        },
+        "altoMidi": {
+          "youtubeId": "U8V943_S4lw",
+          "videoTitle": "세상의 빛 / 알토 MIDI",
+          "startSeconds": 0
+        },
+        "tenorMidi": {
+          "youtubeId": "phc5b2uTf2o",
+          "videoTitle": "세상의 빛 / 테너 MIDI",
+          "startSeconds": 0
+        },
+        "bassMidi": {
+          "youtubeId": "qdPV1hBD1bM",
+          "videoTitle": "세상의 빛 / 베이스 MIDI",
+          "startSeconds": 0
+        }
+      }
+    },
+    {
+      "number": 2,
+      "title": "02 내 영혼이 주를 찬양하며 (마리아의 찬가)",
+      "songTitle": "내 영혼이 주를 찬양하며 (마리아의 찬가)",
+      "composer": "",
+      "category": "크리스마스 칸타타",
+      "normalizedTitle": "02 내 영혼이 주를 찬양하며 (마리아의 찬가)",
+      "searchableTitle": "02내영혼이주를찬양하며마리아의찬가",
+      "youtubeId": "KbhEFI34hmI",
+      "detailUrl": "https://m.joongangart.kr/RejoiceWholeWorld/02/pop1.html",
+      "sourceUrl": "https://m.joongangart.kr/RejoiceWholeWorld/01/%EC%98%A8%EC%84%B8%EC%83%81%EA%B8%B0%EB%BB%90%ED%95%98%EB%9D%BC.html",
+      "parts": {
+        "full": {
+          "youtubeId": "KbhEFI34hmI",
+          "videoTitle": "내 영혼이 주를 찬양하며 (마리아의 찬가) / 합창",
+          "startSeconds": 40
+        },
+        "soprano": {
+          "youtubeId": "t68x1wPbZgw",
+          "videoTitle": "내 영혼이 주를 찬양하며 (마리아의 찬가) / 소프라노",
+          "startSeconds": 40
+        },
+        "alto": {
+          "youtubeId": "6GJt_sTn_6U",
+          "videoTitle": "내 영혼이 주를 찬양하며 (마리아의 찬가) / 알토",
+          "startSeconds": 40
+        },
+        "tenor": {
+          "youtubeId": "Vqr38yJuOZQ",
+          "videoTitle": "내 영혼이 주를 찬양하며 (마리아의 찬가) / 테너",
+          "startSeconds": 40
+        },
+        "bass": {
+          "youtubeId": "O9yU7H8X8cw",
+          "videoTitle": "내 영혼이 주를 찬양하며 (마리아의 찬가) / 베이스",
+          "startSeconds": 40
+        },
+        "sopranoMidi": {
+          "youtubeId": "GhN5HAQ8wBA",
+          "videoTitle": "내 영혼이 주를 찬양하며 (마리아의 찬가) / 소프라노 MIDI",
+          "startSeconds": 0
+        },
+        "altoMidi": {
+          "youtubeId": "eNpekJ86wdo",
+          "videoTitle": "내 영혼이 주를 찬양하며 (마리아의 찬가) / 알토 MIDI",
+          "startSeconds": 0
+        },
+        "tenorMidi": {
+          "youtubeId": "-0bYzLLelfQ",
+          "videoTitle": "내 영혼이 주를 찬양하며 (마리아의 찬가) / 테너 MIDI",
+          "startSeconds": 0
+        },
+        "bassMidi": {
+          "youtubeId": "LSD6pHF5198",
+          "videoTitle": "내 영혼이 주를 찬양하며 (마리아의 찬가) / 베이스 MIDI",
+          "startSeconds": 0
+        }
+      }
+    },
+    {
+      "number": 4,
+      "title": "04 귀한 예물 가지고",
+      "songTitle": "귀한 예물 가지고",
+      "composer": "",
+      "category": "크리스마스 칸타타",
+      "normalizedTitle": "04 귀한 예물 가지고",
+      "searchableTitle": "04귀한예물가지고",
+      "youtubeId": "2Te3FxPhIDE",
+      "detailUrl": "https://m.joongangart.kr/RejoiceWholeWorld/04/pop1.html",
+      "sourceUrl": "https://m.joongangart.kr/RejoiceWholeWorld/01/%EC%98%A8%EC%84%B8%EC%83%81%EA%B8%B0%EB%BB%90%ED%95%98%EB%9D%BC.html",
+      "parts": {
+        "full": {
+          "youtubeId": "2Te3FxPhIDE",
+          "videoTitle": "귀한 예물 가지고 / 합창",
+          "startSeconds": 25
+        },
+        "soprano": {
+          "youtubeId": "qmXKtec7zrA",
+          "videoTitle": "귀한 예물 가지고 / 소프라노",
+          "startSeconds": 25
+        },
+        "alto": {
+          "youtubeId": "NCbzkCOAs8A",
+          "videoTitle": "귀한 예물 가지고 / 알토",
+          "startSeconds": 25
+        },
+        "tenor": {
+          "youtubeId": "C8rN1R-gEns",
+          "videoTitle": "귀한 예물 가지고 / 테너",
+          "startSeconds": 25
+        },
+        "bass": {
+          "youtubeId": "QBh4k0B_ip4",
+          "videoTitle": "귀한 예물 가지고 / 베이스",
+          "startSeconds": 25
+        },
+        "sopranoMidi": {
+          "youtubeId": "8KfQn5k56hM",
+          "videoTitle": "귀한 예물 가지고 / 소프라노 MIDI",
+          "startSeconds": 0
+        },
+        "altoMidi": {
+          "youtubeId": "MHOcaDm2RCg",
+          "videoTitle": "귀한 예물 가지고 / 알토 MIDI",
+          "startSeconds": 0
+        },
+        "tenorMidi": {
+          "youtubeId": "MgirGNPOHwY",
+          "videoTitle": "귀한 예물 가지고 / 테너 MIDI",
+          "startSeconds": 0
+        },
+        "bassMidi": {
+          "youtubeId": "XxQ1kV82JXc",
+          "videoTitle": "귀한 예물 가지고 / 베이스 MIDI",
+          "startSeconds": 0
+        }
+      }
+    },
+    {
+      "number": 6,
+      "title": "06 큰 기쁨의 소식",
+      "songTitle": "큰 기쁨의 소식",
+      "composer": "",
+      "category": "크리스마스 칸타타",
+      "normalizedTitle": "06 큰 기쁨의 소식",
+      "searchableTitle": "06큰기쁨의소식",
+      "youtubeId": "FZ0y_VEEWHA",
+      "detailUrl": "https://m.joongangart.kr/RejoiceWholeWorld/06/pop1.html",
+      "sourceUrl": "https://m.joongangart.kr/RejoiceWholeWorld/01/%EC%98%A8%EC%84%B8%EC%83%81%EA%B8%B0%EB%BB%90%ED%95%98%EB%9D%BC.html",
+      "parts": {
+        "full": {
+          "youtubeId": "FZ0y_VEEWHA",
+          "videoTitle": "큰 기쁨의 소식 / 합창",
+          "startSeconds": 20
+        },
+        "soprano": {
+          "youtubeId": "5dz638P81ng",
+          "videoTitle": "큰 기쁨의 소식 / 소프라노",
+          "startSeconds": 20
+        },
+        "alto": {
+          "youtubeId": "-TiNWtFC84g",
+          "videoTitle": "큰 기쁨의 소식 / 알토",
+          "startSeconds": 20
+        },
+        "tenor": {
+          "youtubeId": "uFRAneb85Ok",
+          "videoTitle": "큰 기쁨의 소식 / 테너",
+          "startSeconds": 20
+        },
+        "bass": {
+          "youtubeId": "ggOjGtZrXvg",
+          "videoTitle": "큰 기쁨의 소식 / 베이스",
+          "startSeconds": 20
+        },
+        "sopranoMidi": {
+          "youtubeId": "hKOYF3UMAas",
+          "videoTitle": "큰 기쁨의 소식 / 소프라노 MIDI",
+          "startSeconds": 0
+        },
+        "altoMidi": {
+          "youtubeId": "Y20ZAkSFpBk",
+          "videoTitle": "큰 기쁨의 소식 / 알토 MIDI",
+          "startSeconds": 0
+        },
+        "tenorMidi": {
+          "youtubeId": "3nS5UI4rIj4",
+          "videoTitle": "큰 기쁨의 소식 / 테너 MIDI",
+          "startSeconds": 0
+        },
+        "bassMidi": {
+          "youtubeId": "ZxlGZigga2c",
+          "videoTitle": "큰 기쁨의 소식 / 베이스 MIDI",
+          "startSeconds": 0
+        }
+      }
+    },
+    {
+      "number": 7,
+      "title": "07 온 세상 기뻐하라",
+      "songTitle": "온 세상 기뻐하라",
+      "composer": "",
+      "category": "크리스마스 칸타타",
+      "normalizedTitle": "07 온 세상 기뻐하라",
+      "searchableTitle": "07온세상기뻐하라",
+      "youtubeId": "mR9l56trsSI",
+      "detailUrl": "https://m.joongangart.kr/RejoiceWholeWorld/07/pop1.html",
+      "sourceUrl": "https://m.joongangart.kr/RejoiceWholeWorld/01/%EC%98%A8%EC%84%B8%EC%83%81%EA%B8%B0%EB%BB%90%ED%95%98%EB%9D%BC.html",
+      "parts": {
+        "full": {
+          "youtubeId": "mR9l56trsSI",
+          "videoTitle": "온 세상 기뻐하라 / 합창",
+          "startSeconds": 38
+        },
+        "soprano": {
+          "youtubeId": "TlR7tgGXlPU",
+          "videoTitle": "온 세상 기뻐하라 / 소프라노",
+          "startSeconds": 38
+        },
+        "alto": {
+          "youtubeId": "G_kbUPXL4HE",
+          "videoTitle": "온 세상 기뻐하라 / 알토",
+          "startSeconds": 38
+        },
+        "tenor": {
+          "youtubeId": "yFov3sWtiUg",
+          "videoTitle": "온 세상 기뻐하라 / 테너",
+          "startSeconds": 38
+        },
+        "bass": {
+          "youtubeId": "QKwXvYMtr_8",
+          "videoTitle": "온 세상 기뻐하라 / 베이스",
+          "startSeconds": 38
+        },
+        "sopranoMidi": {
+          "youtubeId": "_7TOugasJ6w",
+          "videoTitle": "온 세상 기뻐하라 / 소프라노 MIDI",
+          "startSeconds": 0
+        },
+        "altoMidi": {
+          "youtubeId": "Sj8KLU7cgI8",
+          "videoTitle": "온 세상 기뻐하라 / 알토 MIDI",
+          "startSeconds": 0
+        },
+        "tenorMidi": {
+          "youtubeId": "C3_55NOXqQ0",
+          "videoTitle": "온 세상 기뻐하라 / 테너 MIDI",
+          "startSeconds": 0
+        },
+        "bassMidi": {
+          "youtubeId": "JUTK4_Lxuu8",
+          "videoTitle": "온 세상 기뻐하라 / 베이스 MIDI",
+          "startSeconds": 0
+        }
+      }
+    }
+  ]
+}

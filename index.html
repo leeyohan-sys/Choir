@@ -4,11 +4,23 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <title>성가대 파트 연습실</title>
-    <link rel="stylesheet" href="./styles.css?v=20260831-11" />
+    <meta name="theme-color" content="#0f172a" />
+    <link rel="manifest" href="./manifest.webmanifest" />
+    <link rel="icon" type="image/png" sizes="192x192" href="./icon-192.png" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content="파트연습" />
+    <link rel="stylesheet" href="./styles.css?v=20261027-2" />
   </head>
   <body>
     <main class="app">
-      <h1>파트연습 찾기</h1>
+      <div class="app-header">
+        <h1>파트연습 찾기</h1>
+        <button id="installAppButton" type="button" class="install-button" hidden>
+          홈 화면에 앱 추가
+        </button>
+      </div>
+      <div id="installHelp" class="install-help card" hidden></div>
 
       <section class="catalog-section catalog-section-first" aria-labelledby="easyGrace13Title">
         <h2 id="easyGrace13Title" class="catalog-title">쉽고 은혜로운 찬양곡집 13집</h2>
@@ -52,9 +64,56 @@
 
         <div id="easyGrace13PracticeBox" class="practice-parts" hidden></div>
       </section>
+
+      <section class="catalog-section" aria-labelledby="cantataRejoiceTitle">
+        <h2 id="cantataRejoiceTitle" class="catalog-title">칸타타 연습곡</h2>
+        <p class="catalog-desc">
+          크리스마스 칸타타 'Rejoice, 온 세상 기뻐하라!' 연습곡입니다. 곡 번호 또는 곡 제목으로 찾으면
+          합창/소프라노/알토/테너/베이스 파트연습과 파트별 MIDI 연습 화면이 열립니다.
+        </p>
+
+        <form id="cantataRejoiceForm" class="card">
+          <label for="cantataRejoiceInput">곡 번호 또는 곡 제목</label>
+
+          <div class="combo" id="cantataRejoiceCombo">
+            <div class="combo-input-row">
+              <input
+                id="cantataRejoiceInput"
+                name="cantataRejoiceInput"
+                type="text"
+                placeholder="예: 6, 큰 기쁨의 소식"
+                autocomplete="off"
+                role="combobox"
+                aria-expanded="false"
+                aria-controls="cantataRejoiceSongList"
+                aria-autocomplete="list"
+                required
+              />
+              <button
+                id="cantataRejoiceToggle"
+                type="button"
+                class="combo-toggle"
+                aria-label="칸타타 연습곡 목록 열기"
+              >
+                ▾
+              </button>
+            </div>
+            <ul id="cantataRejoiceSongList" class="combo-list" role="listbox" hidden></ul>
+          </div>
+
+          <button id="cantataRejoiceSubmit" type="submit">파트연습 열기</button>
+        </form>
+
+        <p id="cantataRejoiceMessage" class="message" aria-live="polite"></p>
+
+        <div id="cantataRejoicePracticeBox" class="practice-parts" hidden></div>
+
+        <div id="cantataRejoicePlaylistBox" class="practice-parts practice-playlist" hidden></div>
+      </section>
     </main>
 
-    <script src="./part-practice-ui.js?v=20260914-1"></script>
-    <script src="./main.js?v=20260914-1"></script>
+    <script src="./part-practice-ui.js?v=20261027-3"></script>
+    <script src="./main.js?v=20261027-3"></script>
+    <script src="./install-app.js?v=20261027-1"></script>
   </body>
 </html>
