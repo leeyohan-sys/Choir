@@ -263,34 +263,62 @@
     container.scrollIntoView({ behavior: "smooth", block: "nearest" });
   }
 
-  // 파트별로 전체 곡을 번호 순서대로 이어서 재생. 각 곡은 parts[key].startSeconds부터 시작
+  // 파트별 연속듣기: 파트를 누르면 모든 곡(일반·MIDI 모두 처음부터)을 번호 순서대로 담은
+  // 유튜브 재생목록을 바로 엽니다. 페이지 안에는 플레이어를 두지 않습니다.
   function renderPartPlaylist(container, items, { title = "파트별 연속듣기" } = {}) {
     if (!container || !items?.length) return;
 
     container.innerHTML = "";
     container.hidden = false;
 
-    const queueFor = (key) =>
-      items
-        .map((item) => item.parts?.[key])
-        .filter((part) => part?.youtubeId)
-        .map((part) => ({ videoId: part.youtubeId, startSeconds: part.startSeconds || 0 }));
+    const videoIdsFor = (key) =>
+      items.map((item) => item.parts?.[key]?.youtubeId).filter(Boolean);
 
-    const panel = buildPartPanel({
-      title,
-      note: "파트를 고르면 모든 곡이 번호 순서대로 이어서 재생되고, 끝나면 처음부터 반복됩니다.",
-      getSource: (key) => {
-        const queue = queueFor(key);
-        if (!queue.length) return null;
-        return {
-          queue,
-          watchUrl: `https://www.youtube.com/watch_videos?video_ids=${queue.map((q) => q.videoId).join(",")}`,
-        };
-      },
-      hasMidi: MIDI_TABS.some(({ key }) => queueFor(key).length),
-      defaultKey: "soprano",
-      emptyText: "이 파트 연습 영상이 아직 없습니다.",
-    });
+    const panel = document.createElement("section");
+    panel.className = "part-practice-panel card";
+
+    const titleEl = document.createElement("h3");
+    titleEl.className = "part-practice-song";
+    titleEl.textContent = title;
+    panel.appendChild(titleEl);
+
+    const noteEl = document.createElement("p");
+    noteEl.className = "part-tabs-label";
+    noteEl.textContent = "파트를 누르면 모든 곡이 번호 순서대로 담긴 유튜브 재생목록이 열립니다.";
+    panel.appendChild(noteEl);
+
+    function appendLinkTabs(tabDefs, extraClass) {
+      const tabs = document.createElement("div");
+      tabs.className = `part-tabs${extraClass ? ` ${extraClass}` : ""}`;
+      tabDefs.forEach(({ key, label }) => {
+        const ids = videoIdsFor(key);
+        const link = document.createElement("a");
+        link.className = "part-tab";
+        link.textContent = label;
+        if (ids.length) {
+          // watch_videos는 시작 시점 없이 각 영상을 처음부터 재생 (최대 50개)
+          link.href = `https://www.youtube.com/watch_videos?video_ids=${ids.slice(0, 50).join(",")}`;
+          link.target = "_blank";
+          link.rel = "noopener noreferrer";
+        } else {
+          link.classList.add("disabled");
+          link.setAttribute("aria-disabled", "true");
+          link.title = "이 파트 연습 영상이 아직 없습니다.";
+        }
+        tabs.appendChild(link);
+      });
+      panel.appendChild(tabs);
+    }
+
+    appendLinkTabs(PART_TABS);
+
+    if (MIDI_TABS.some(({ key }) => videoIdsFor(key).length)) {
+      const midiLabel = document.createElement("p");
+      midiLabel.className = "part-tabs-label";
+      midiLabel.textContent = "MIDI로 연습";
+      panel.appendChild(midiLabel);
+      appendLinkTabs(MIDI_TABS, "part-tabs-midi");
+    }
 
     container.appendChild(panel);
   }
