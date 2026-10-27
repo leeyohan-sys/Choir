@@ -125,6 +125,22 @@ h1 {
   border-left: 0;
 }
 
+a.part-tab {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+}
+
+a.part-tab:active {
+  background: #8b6b4d;
+  color: #fff7e6;
+}
+
+a.part-tab.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 .part-tab.active {
   background: #8b6b4d;
   color: #fff7e6;
