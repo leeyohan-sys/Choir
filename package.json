@@ -7,6 +7,7 @@
     "start": "node server.js",
     "build:index": "node scripts/build-index.js",
     "build:easygrace13": "node scripts/build-easygrace13.js",
+    "build:cantata": "node scripts/build-cantata-rejoice.js",
     "deploy": "npm run build:index && gh-pages -d public"
   },
   "keywords": [],

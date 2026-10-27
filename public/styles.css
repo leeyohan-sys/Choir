@@ -92,6 +92,17 @@ h1 {
   margin-bottom: 12px;
 }
 
+.part-tabs-midi {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.part-tabs-label {
+  margin: 0 0 6px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #cbd5e1;
+}
+
 .part-tab {
   border: 1px solid #8b6b4d;
   background: transparent;
@@ -319,4 +330,44 @@ button:disabled {
   font-weight: 600;
   color: #0f172a;
   background: #a5f3fc;
+}
+
+.app-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.app-header h1 {
+  margin: 0;
+}
+
+.install-button {
+  flex-shrink: 0;
+  padding: 8px 12px;
+  font-size: 0.85rem;
+  color: #fff7e6;
+  background: #8b6b4d;
+}
+
+.install-help {
+  margin: 8px 0 16px;
+  gap: 8px;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.install-help[hidden] {
+  display: none;
+}
+
+.install-help p {
+  margin: 0;
+}
+
+.install-help button {
+  padding: 8px 12px;
+  font-size: 0.9rem;
 }
